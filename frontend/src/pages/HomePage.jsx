@@ -1,9 +1,35 @@
-export const HomePage = () => {
-  // TODO: Integrar lógica para obtener superhéroes desde la API
-  // TODO: Implementar useState para almacenar la lista de superhéroes
-  // TODO: Implementar función para recargar superhéroes
+import { useState, useEffect } from "react";
 
-  // Datos de ejemplo para las cards
+export const HomePage = () => {
+  const [userName, setUserName] = useState("");
+  const [loadingProfile, setLoadingProfile] = useState(true);
+
+  const fetchProfile = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/profile", {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUserName(data.name);
+      } else {
+        console.error("Error al obtener el perfil del usuario");
+        setUserName("Usuario");
+      }
+    } catch (error) {
+      console.error("Error de red al obtener el perfil:", error);
+      setUserName("Usuario");
+    } finally {
+      setLoadingProfile(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile(), [];
+  });
+
   const superheroes = [
     {
       id: 1,
@@ -49,11 +75,15 @@ export const HomePage = () => {
         Galería de Superhéroes
       </h1>
 
+      {!loadingProfile && userName && (
+        <h2 className="text-2xl font-semibold text-center mb-6 text-gray-700">
+          ¡Bienvenido/a, {userName}!
+        </h2>
+      )}
+
       <div className="flex justify-center mb-8">
         <button
-          onClick={() => {
-            // TODO: Implementar función para recargar superhéroes
-          }}
+          onClick={() => {}}
           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded transition-colors"
         >
           Recargar
