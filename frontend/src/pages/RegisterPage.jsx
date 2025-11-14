@@ -29,13 +29,19 @@ export const RegisterPage = () => {
 
       const data = await response.json();
       console.log(data);
-      setLoading(false);
+
       alert("Registrado Correctamente");
       navigate("/home");
     } catch (error) {
-      throw new Error(error);
+      alert("Error Al registrarse");
+      throw new Error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
+  useEffect(() => {
+    handleRegister();
+  }, []);
   // TODO: Integrar lógica de registro aquí
   // TODO: Implementar useForm para el manejo del formulario
   // TODO: Implementar función handleSubmit

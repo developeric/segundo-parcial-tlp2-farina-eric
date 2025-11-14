@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router";
 import { useForm } from "../hooks/useForm.js";
-import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const LoginPage = () => {
   const [Loading, setLoading] = useState(true);
@@ -12,23 +11,31 @@ export const LoginPage = () => {
   });
   const handleLogin = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:3000/api/login", {
-      method: "POST",
-      body: JSON.stringify(formState),
-      headers: {
-        "Content-type": "application/json",
-      },
-      credentials: "include",
-    });
-    if (!response.ok) throw new Error();
+    try {
+      const response = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        body: JSON.stringify(formState),
+        headers: {
+          "Content-type": "application/json",
+        },
+        credentials: "include",
+      });
+      if (!response.ok) throw new Error();
 
-    setLoading(false);
-    const data = await response.json();
-    console.log(data);
-    alert("Logueado");
-    navigate("/home");
+      const data = await response.json();
+      console.log(data);
+      alert("Logueado");
+      navigate("/home");
+    } catch (error) {
+      alert("Error Al Loguearse");
+      throw new Error(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
-
+  useEffect(() => {
+    handleLogin();
+  }, []);
   // TODO: Integrar lógica de autenticación aquí
   // TODO: Implementar useForm para el manejo del formulario
   // TODO: Implementar función handleSubmit
