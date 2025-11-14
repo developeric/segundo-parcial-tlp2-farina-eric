@@ -24,7 +24,7 @@ export const LoginPage = () => {
 
       const data = await response.json();
       console.log(data);
-      alert("Logueado");
+      alert(`Logueado ${formState.username}`);
       navigate("/home");
     } catch (error) {
       alert("Error Al Loguearse");

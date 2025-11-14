@@ -1,11 +1,51 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 export const Navbar = () => {
-  // TODO: Obtener datos del usuario desde /api/profile
-  // TODO: Implementar función handleLogout con POST a /api/logout usando credentials: 'include'
-  // TODO: Después del logout exitoso, redireccionar a /login
-  // TODO: Manejar errores apropiadamente
+  const [user, setUser] = useState(null);
+  const [Loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-  const userName = "Usuario"; // TODO: Reemplazar con el nombre real del usuario obtenido de /api/profile
+  const fetchUser = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/profile", {
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error("Error fetch profile");
+      }
+      const data = await response.json();
+      console.log(data);
+      setUser(data.user);
+    } catch (error) {
+      console.log(error);
+      navigate("/login");
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
+  const userName = user?.name; //TODO: No se pq se pone el "user?", pero me dijeron que es mejor
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al hacer logout");
+      }
+
+      alert("Logout Exitoso");
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+      alert("Ocurrió un error");
+    }
+  };
   return (
     <nav className="bg-gray-900 text-white h-16 left-0 right-0 shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4 h-full flex items-center justify-between">
@@ -18,9 +58,8 @@ export const Navbar = () => {
           </span>
 
           <button
-            onClick={() => {
-              // TODO: Implementar handleLogout aquí
-            }}
+            // TODO: Implementar handleLogout aquí
+            onClick={handleLogout}
             className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded transition-colors font-medium"
           >
             Cerrar Sesión

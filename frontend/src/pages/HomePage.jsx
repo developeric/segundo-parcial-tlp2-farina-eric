@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export const HomePage = () => {
-  const [userName, setUserName] = useState("");
+  const [user, setUserName] = useState();
   const [loadingProfile, setLoadingProfile] = useState(true);
 
   const fetchProfile = async () => {
@@ -27,8 +27,13 @@ export const HomePage = () => {
   };
 
   useEffect(() => {
-    fetchProfile(), [];
-  });
+    fetchProfile();
+  }, []);
+
+  // 1. Define la función para recargar la página
+  const handleReload = () => {
+    window.location.reload();
+  };
 
   const superheroes = [
     {
@@ -75,15 +80,16 @@ export const HomePage = () => {
         Galería de Superhéroes
       </h1>
 
-      {!loadingProfile && userName && (
+      {!loadingProfile && user && (
         <h2 className="text-2xl font-semibold text-center mb-6 text-gray-700">
-          ¡Bienvenido/a, {userName}!
+          ¡Bienvenido/a, {user.username}!
         </h2>
       )}
 
       <div className="flex justify-center mb-8">
+        {/* 2. Asigna la función al onClick del botón */}
         <button
-          onClick={() => {}}
+          onClick={handleReload}
           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded transition-colors"
         >
           Recargar
