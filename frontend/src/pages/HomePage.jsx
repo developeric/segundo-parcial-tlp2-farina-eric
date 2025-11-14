@@ -30,9 +30,10 @@ export const HomePage = () => {
     fetchProfile();
   }, []);
 
-  // 1. Define la función para recargar la página
   const handleReload = () => {
     window.location.reload();
+//Esta funcion hace que se recargue la pagina cuando hago CliCK
+//SI pingo handleReload() entra en un bucle encima laskdaksd
   };
 
   const superheroes = [
@@ -82,14 +83,14 @@ export const HomePage = () => {
 
       {!loadingProfile && user && (
         <h2 className="text-2xl font-semibold text-center mb-6 text-gray-700">
-          ¡Bienvenido/a, {user.username}!
+          ¡Bienvenido/a, {user.username}
         </h2>
       )}
 
       <div className="flex justify-center mb-8">
-        {/* 2. Asigna la función al onClick del botón */}
         <button
           onClick={handleReload}
+          //no se la diferencia de un onCLick y un onSubmit
           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded transition-colors"
         >
           Recargar

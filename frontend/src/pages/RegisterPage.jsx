@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { useForm } from "../hooks/useForm.js";
 import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
@@ -30,10 +30,12 @@ export const RegisterPage = () => {
       const data = await response.json();
       console.log(data);
 
-      alert("Registrado Correctamente");
+      alert(`Registrado Correctamente ${formState.username}`);
       navigate("/home");
     } catch (error) {
-      alert("Error Al registrarse");
+      alert(
+        "Error Al Registrarse (Puede que haya ingresado un Email o Username ya Existente "
+      );
       throw new Error(error.message);
     } finally {
       setLoading(false);

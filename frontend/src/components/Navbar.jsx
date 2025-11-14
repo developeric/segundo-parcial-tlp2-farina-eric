@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 export const Navbar = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
   const [Loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -39,7 +39,7 @@ export const Navbar = () => {
         throw new Error("Error al hacer logout");
       }
 
-      alert("Logout Exitoso");
+      alert(`Logout Exitoso, Adiós`);
       navigate("/login");
     } catch (error) {
       console.log(error);
